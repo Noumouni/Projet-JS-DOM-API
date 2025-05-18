@@ -1,3 +1,6 @@
+import { ajoutListenersAvis } from "./avis.js";
+
+
 // Récupération des pièces depuis le fichier JSON
 const reponse = await fetch('pieces-autos.json');
 const pieces = await reponse.json();
@@ -23,6 +26,11 @@ function genererPieces(pieces){
         descriptionElement.innerText = article.description ?? "Pas de description pour le moment.";
         const stockElement = document.createElement("p");
         stockElement.innerText = article.disponibilite ? "En stock" : "Rupture de stock";
+
+        const avisBouton = document.createElement("button");
+        avisBouton.dataset.id = article.id;
+        avisBouton.textContent = "Afficher les avis";
+        
         
         // On rattache la balise article a la section Fiches
         sectionFiches.appendChild(pieceElement);
@@ -34,6 +42,8 @@ function genererPieces(pieces){
         //Ajout des éléments au DOM pour l'exercice
         pieceElement.appendChild(descriptionElement);
         pieceElement.appendChild(stockElement);
+        pieceElement.appendChild(avisBouton);
+    
     
      }
 }
@@ -62,7 +72,6 @@ boutonFiltrer.addEventListener("click", function () {
     genererPieces(piecesFiltrees);
 });
 
-//Correction Exercice
 const boutonDecroissant = document.querySelector(".btn-decroissant");
 
 boutonDecroissant.addEventListener("click", function () {
@@ -108,7 +117,7 @@ document.querySelector('.abordables')
     .appendChild(pElement)
     .appendChild(abordablesElements);
 
-//Code Exercice 
+
 const nomsDisponibles = pieces.map(piece => piece.nom)
 const prixDisponibles = pieces.map(piece => piece.prix)
 
